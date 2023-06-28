@@ -6,10 +6,10 @@ public struct MainView: View {
     
     @Injected(\.mainViewRouter) private var router: MainViewRouter!
 
-    public init() { }
-    
+    @ObservedObject var navigationState: MainViewNavigationState
+
     public var body: some View {
-        TabView {
+        TabView(selection: $navigationState.selectedTab) {
             ForEach(MainViewTab.allCases) { tab in
                 router.viewFor(tab: tab)
                     .tabItem {

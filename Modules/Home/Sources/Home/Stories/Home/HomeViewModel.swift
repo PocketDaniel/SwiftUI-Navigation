@@ -2,28 +2,19 @@ import Foundation
 import Factory
 import Core
 import HomeInterface
+import MainInterface
+import SettingsInterface
 
 class HomeViewModel: BaseViewModel<HomeViewAction, HomeViewState> {
-    
-    @Published var routes = [HomeRoute]()
 
     @Injected(\.homeRouter) private var homeRouter: HomeRouter!
+    @Injected(\.mainViewRouter) private var mainViewRouter: MainViewRouter!
+    @Injected(\.settingsRouter) private var settingsRouter: SettingsRouter!
 
     // MARK: - Initialization
     
     init() {
         super.init(state: HomeViewState())
-        
-        setupBinding()
-    }
-    
-    private func setupBinding() {
-        homeRouter.routesPublisher
-            .receive(on: RunLoop.main)
-            .sink { [weak self] routes in
-                self?.routes = routes
-            }
-            .store(in: &cancellables)
     }
 
     // MARK: - Actions
@@ -35,7 +26,8 @@ class HomeViewModel: BaseViewModel<HomeViewAction, HomeViewState> {
         case .pressedTransactionDetails:
             homeRouter.presentTransactionDetailsFromHome()
         case .pressedSettings:
-            break
+            mainViewRouter.set(tab: .settings)
+            settingsRouter.presentEmailSettings()
         }
     }
 }

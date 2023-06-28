@@ -4,35 +4,40 @@ import Factory
 import HomeInterface
 import Core
 
+class HomeNavigationState: ObservableObject {
+    @Published var routes: [HomeRoute] = []
+}
+
 final public class HomeRouterImplementation: HomeRouter {
-    
-    public init() { }
+
+    var navigationState: HomeNavigationState
+
+    public init() {
+        navigationState = HomeNavigationState()
+    }
     
     // MARK: - Navigation
-    
-    @Published public var routes = [HomeRoute]()
-    public var routesPublisher: Published<[HomeRoute]>.Publisher { $routes }
-    
+
     public func push(to screen: HomeRoute) {
-        routes.append(screen)
+        navigationState.routes.append(screen)
     }
     
     public func push(multiple screens: [HomeRoute]) {
-        routes.append(contentsOf: screens)
+        navigationState.routes.append(contentsOf: screens)
     }
 
     public func pop() {
-        _ = routes.popLast()
+        _ = navigationState.routes.popLast()
     }
     
     public func popToRoot() {
-        routes = []
+        navigationState.routes = []
     }
     
     // MARK: - Navigation
     
     public func entryView() -> AnyView {
-        HomeView().toAnyView()
+        HomeView(navigationState: navigationState).toAnyView()
     }
     
     public func presentAccountList() {

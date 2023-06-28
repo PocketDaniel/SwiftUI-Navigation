@@ -3,12 +3,52 @@ import Factory
 import SettingsInterface
 import Core
 
+public enum AccountSettingsRoute: Hashable {
+    case list
+    case detail
+}
+
+extension AccountSettingsRoute: View {
+
+    public var body: some View {
+        switch self {
+        case .list:
+            List {
+                Text("List")
+            }
+        case .detail:
+            Text("Detail")
+        }
+    }
+}
+
+
+public class SettingsNavigationState: ObservableObject {
+    @Published var accountSheetPresented: Bool = false
+    @Published var accountSettingsRoutes = [AccountSettingsRoute]()
+    var routesToRestore = [AccountSettingsRoute]()
+
+    public init() {
+
+    }
+
+    func restore() {
+        accountSettingsRoutes.removeAll()
+        accountSettingsRoutes.append(contentsOf: routesToRestore)
+        routesToRestore.removeAll()
+    }
+}
+
 final public class SettingsRouterImplementation: SettingsRouter {
-    
-    public init() { }
+
+    var navigationState: SettingsNavigationState
+
+    public init() {
+        navigationState = SettingsNavigationState()
+    }
     
     public func entryView() -> AnyView {
-        SettingsView().toAnyView()
+        SettingsView(navigationState: navigationState).toAnyView()
     }
     
     public func presentAccountSettings() {
@@ -17,7 +57,7 @@ final public class SettingsRouterImplementation: SettingsRouter {
     }
     
     public func presentEmailSettings() {
-        // TODO: Implement
-        print("presentEmailSettings")
+        navigationState.accountSheetPresented = true
+        navigationState.routesToRestore.append(contentsOf: [.detail])
     }
 }

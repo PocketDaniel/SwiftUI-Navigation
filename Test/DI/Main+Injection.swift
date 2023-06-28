@@ -6,6 +6,9 @@ import MainInterface
 extension Container {
     @MainActor
     public func autoRegisterMainDependencies() {
-        mainViewRouter.register { MainViewRouterImplementation() }
+        mainViewRouter.register { MainViewRouterImplementation(
+            homeRouter: self.homeRouter.callAsFunction()!,
+            settingsRouter: self.settingsRouter.callAsFunction()!
+        ) }
     }
 }
