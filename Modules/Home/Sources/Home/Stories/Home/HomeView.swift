@@ -6,9 +6,11 @@ import HomeInterface
 struct HomeView: View {
     
     @ObservedObject private var viewModel: HomeViewModel = Container.shared.homeViewModel()
-    
+
+    @ObservedObject var navigationState: HomeNavigationState
+
     var body: some View {
-        NavigationStack(path: $viewModel.routes) {
+        NavigationStack(path: $navigationState.routes) {
             VStack(spacing: 24) {
                 AsyncButton(action: {
                     await viewModel.performAction(.pressedAccountList)
