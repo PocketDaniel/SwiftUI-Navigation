@@ -1,0 +1,41 @@
+name: Release new version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number to be released (e.g. "2.5.0")'
+        required: true
+      changelog:
+        description: 'The changelog for new version'
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch "main" # TODO: Change to master
+        uses: actions/checkout@v2
+        with:
+          ref: 'main' # TODO: Change to master
+      - name: Create Tag
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `refs/tags/${{ inputs.version }}`,
+                sha: context.sha
+            })
+
+      # - name: Release snapshot
+      #   id: release-snapshot
+      #   uses: actions/create-release@latest
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ steps.date.outputs.date }}
+      #     release_name: ${{ steps.date.outputs.date }}
+      #     draft: false
+      #     prerelease: false
