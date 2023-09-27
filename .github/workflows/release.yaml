@@ -21,9 +21,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: 'main' # TODO: Change to master
-      - name: Create git tag
+      - name: Create and Push git tag
         run: git tag ${{ inputs.version }}
-      - name: Push git tag
+      # - name: Push git tag
         run: git push origin ${{ inputs.version }}
 
       # - name: Create Tag
