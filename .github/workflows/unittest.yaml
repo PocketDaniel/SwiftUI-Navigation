@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Test
         run: | 
-          xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
+          xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' | xcpretty && exit ${PIPESTATUS[0]}
 
   check_for_release:
     if: github.event.pull_request.merged # && startsWith(github.event.pull_request.title, "Release")
