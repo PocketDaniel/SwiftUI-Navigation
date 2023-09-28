@@ -1,11 +1,11 @@
 name: Run unit tests
 
-on: pull_request
+on: pull_request_target
 
 jobs:
-  test:
+  unit_tests:
     runs-on: macos-13
-    name: Test
+    name: Run unit tests
     steps:
       - uses: actions/checkout@v4
       - name: Test
