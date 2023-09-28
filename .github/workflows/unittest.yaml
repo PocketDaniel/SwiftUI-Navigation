@@ -30,10 +30,21 @@ jobs:
       - name: Check if neessary files are changed
         id: file-check
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
           echo "::set-output name=passed::true"
+
+          requiredFiles=(
+            "Test/Constants.swift" 
+            "test.podspec" 
+            "Changelogs/2.5.0.md" 
+          )
+
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            if [[ " ${requiredFiles[@]} " =~ " ${file} " ]]; then
+              echo "$file was changed"
+            else
+              echo "::set-output name=passed::false"
+            fi
+          done
 
       - name: Check outputs
         run: echo ${{ steps.file-check.outputs.passed }}
