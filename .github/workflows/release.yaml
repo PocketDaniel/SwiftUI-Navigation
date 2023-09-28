@@ -22,11 +22,10 @@ jobs:
         with:
           ref: 'main' # TODO: Change to master
 
-      - name: Create git tag
-        run: git tag ${{ inputs.version }}
-
-      - name: Push git tag
-        run: git push origin ${{ inputs.version }}
+      - name: Create and push git tag
+        run: |
+          git tag ${{ inputs.version }}
+          git push origin ${{ inputs.version }}
 
       - name: Release version
         uses: actions/create-release@latest
