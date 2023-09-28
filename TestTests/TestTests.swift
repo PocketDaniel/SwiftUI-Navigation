@@ -11,7 +11,7 @@ final class TestTests: XCTestCase {
 
     // This is a dummy unit test to test CI/CD
     func testExample() throws {
-        let test = "tests"
+        let test = "test"
         
         XCTAssertEqual("test", test)
     }
