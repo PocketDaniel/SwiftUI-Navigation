@@ -5,15 +5,12 @@ on: pull_request_target
 jobs:
   unit_tests:
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        destination: ['platform=iOS Simulator,OS=16.7,name=iPhone 14']
     name: Run unit tests
     steps:
       - uses: actions/checkout@v4
       - name: Test
         run: | 
-          xcodebuild test -scheme Test -resultBundlePath TestResults -destination "${{ matrix.destination }}" && exit ${PIPESTATUS[0]}
+          xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
 
   check_for_release:
     if: github.event.pull_request.merged # && startsWith(github.event.pull_request.title, "Release")
