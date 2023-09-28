@@ -38,7 +38,7 @@ jobs:
             "Changelogs/2.5.0.md" 
           )
 
-          for file in ${requiredFiles}; do
+          for file in ${requiredFiles[@]}; do
             if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
               echo "$file was changed"
             else
