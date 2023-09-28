@@ -47,7 +47,7 @@ jobs:
           done
 
       - name: Check outputs
-        run: echo ${{ steps.file-check.outputs.passed }}
+        run: echo "$passed"
 
       # - name: Try to fail
       #   run: exit 1
