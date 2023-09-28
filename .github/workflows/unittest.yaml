@@ -4,7 +4,7 @@ on: pull_request_target
 
 jobs:
   unit_tests:
-    runs-on: macOS-latest
+    runs-on: macOS-13
     name: Run unit tests
     steps:
       - uses: actions/checkout@v4
