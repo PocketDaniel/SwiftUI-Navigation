@@ -17,9 +17,9 @@ jobs:
           path: TestResults.xcresult
         if: success() || failure()
 
-  check_for_release:
-    if: github.event.pull_request.merged # && startsWith(github.event.pull_request.title, "Release")
-    runs-on: ubuntu-latest
-    name: Check for release
-    steps:
-      - run: echo "The PR was merged"
+  # check_for_release:
+  #   if: github.event.pull_request.merged # && startsWith(github.event.pull_request.title, "Release")
+  #   runs-on: ubuntu-latest
+  #   name: Check for release
+  #   steps:
+  #     - run: echo "The PR was merged"
