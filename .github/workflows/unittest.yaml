@@ -10,16 +10,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Test
         run: | 
-          xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' 
+          xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' | xcpretty && exit ${PIPESTATUS[0]}
 
-      - uses: kishikawakatsumi/xcresulttool@v1
-        with:
-          path: TestResults.xcresult
-        if: success() || failure()
-
-  # check_for_release:
-  #   if: github.event.pull_request.merged # && startsWith(github.event.pull_request.title, "Release")
-  #   runs-on: ubuntu-latest
-  #   name: Check for release
-  #   steps:
-  #     - run: echo "The PR was merged"
+  check_for_release:
+    if: github.event.pull_request.merged # && startsWith(github.event.pull_request.title, "Release")
+    runs-on: ubuntu-latest
+    name: Check for release
+    steps:
+      - run: echo "The PR was merged"
