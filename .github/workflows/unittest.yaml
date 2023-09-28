@@ -30,19 +30,19 @@ jobs:
       - name: Check if neessary files are changed
         id: file-check
         run: |
-          echo "::set-output name=passed::true"
+          echo "{passed}={true}" >> $GITHUB_OUTPUT
 
           requiredFiles=(
             "Test/Constants.swift" 
             "test.podspec" 
-            "Changelogs/2.5.0.md" 
+            "Changelogs/2.5.1.md" 
           )
 
           for file in ${requiredFiles[@]}; do
             if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
               echo "$file was changed"
             else
-              echo "::set-output name=passed::false"
+              echo "{passed}={false}" >> $GITHUB_OUTPUT
             fi
           done
 
