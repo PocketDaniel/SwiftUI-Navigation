@@ -17,7 +17,7 @@ jobs:
   #         xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
 
   check_for_release:
-    if: github.event.pull_request.merged && startsWith(github.event.pull_request.title, "Release")
+    if: github.event.pull_request.merged && startsWith(github.event.pull_request.title, 'Release')
     runs-on: ubuntu-latest
     name: Check for release
     steps:
