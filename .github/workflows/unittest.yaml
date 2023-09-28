@@ -30,7 +30,7 @@ jobs:
       - name: Check if neessary files are changed
         id: file-check
         run: |
-          echo "{passed}={true}" >> "$GITHUB_OUTPUT"
+          echo "{PASSED}={true}" >> "$GITHUB_OUTPUT"
 
           requiredFiles=(
             "Test/Constants.swift" 
@@ -42,12 +42,14 @@ jobs:
             if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
               echo "$file was changed"
             else
-              echo "{passed}={false}" >> "$GITHUB_OUTPUT"
+              echo "{PASSED}={false}" >> "$GITHUB_OUTPUT"
             fi
           done
 
       - name: Check outputs
-        run: echo ${{ steps.file-check.outputs.passed }}
+        env:
+          PASSED: ${{ steps.file-check.outputs.PASSED }}
+        run: echo "$PASSED"
 
       # - name: Try to fail
       #   run: exit 1
