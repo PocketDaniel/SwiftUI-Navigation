@@ -22,4 +22,21 @@ jobs:
     runs-on: ubuntu-latest
     name: Check for release
     steps:
-      - run: echo "Checking if PR is ready for release"
+      - uses: actions/checkout@v4
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v39
+
+      - name: Check if neessary files are changed
+        id: file-check
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+          echo "::set-output name=passed::true"
+
+      - name: Check outputs
+        run: echo ${{ steps.file-check.outputs.passed }}
+
+      # - name: Try to fail
+      #   run: exit 1
