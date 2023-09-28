@@ -39,7 +39,7 @@ jobs:
           )
 
           for file in ${requiredFiles}; do
-            if [[ " ${{ steps.changed-files.outputs.all_changed_files[@] }} " =~ " ${file} " ]]; then
+            if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
               echo "$file was changed"
             else
               echo "::set-output name=passed::false"
