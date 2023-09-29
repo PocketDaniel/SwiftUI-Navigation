@@ -10,52 +10,37 @@ jobs:
     runs-on: macOS-13
     name: Run unit tests
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - uses: actions/checkout@v4
       - name: Test
-        run: echo "Running unit tests"
-        # run: | 
-        #   xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
+        run: | 
+          xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
 
-  call_check_for_release:
+  check_for_release:
+    if: startsWith(github.event.pull_request.title, 'Release')
     runs-on: macOS-13
-    name: Call check_for_release workflow
-    env:
-      REF_SHA: ${{ github.event.pull_request.head.sha }}
+    name: Check for release
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/workflows/check-for-release.yaml@${{ REF_SHA }}
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v39
 
-  # check_for_release:
-  #   if: startsWith(github.event.pull_request.title, 'Release')
-  #   runs-on: macOS-13
-  #   name: Check for release
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Get changed files
-  #       id: changed-files
-  #       uses: tj-actions/changed-files@v39
+      - name: Check if neessary files are changed
+        id: file-check
+        run: |
+          version=$(echo '${{ github.event.pull_request.title }}' | grep -Eo '\d+\.\d+\.\d+')
 
-  #     - name: Check if neessary files are changed
-  #       id: file-check
-  #       run: |
-  #         version=$(echo '${{ github.event.pull_request.title }}' | grep -Eo '\d+\.\d+\.\d+')
+          requiredFiles=(
+            "Test/Constants.swift" 
+            "test.podspec" 
+            "Changelogs/$version.md" 
+          )
 
-  #         requiredFiles=(
-  #           "Test/Constants.swift" 
-  #           "test.podspec" 
-  #           "Changelogs/$version.md" 
-  #         )
-
-  #         for file in ${requiredFiles[@]}; do
-  #           if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
-  #             echo "$file was changed"
-  #           else
-  #             echo "::error::$file wasn't added/updated, but is required for release"
-  #             exit 1
-  #           fi
-  #         done
+          for file in ${requiredFiles[@]}; do
+            if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
+              echo "$file was changed"
+            else
+              echo "::error::$file wasn't added/updated, but is required for release"
+              exit 1
+            fi
+          done
