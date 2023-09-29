@@ -21,14 +21,14 @@ jobs:
         # run: | 
         #   xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
 
-  # call_check_for_release:
-  #   runs-on: macOS-13
-  #   name: Call check_for_release workflow
-  #   env:
-  #     PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: ./.github/workflows/check-for-release.yaml@$PR_HEAD_REF
+  call_check_for_release:
+    runs-on: macOS-13
+    name: Call check_for_release workflow
+    env:
+      REF_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/check-for-release.yaml@${REF_SHA}
 
   # check_for_release:
   #   if: startsWith(github.event.pull_request.title, 'Release')
