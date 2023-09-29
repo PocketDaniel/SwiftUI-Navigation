@@ -19,7 +19,7 @@ jobs:
   check_for_release:
     if: startsWith(github.event.pull_request.title, 'Release')
     # if: github.event.pull_request.merged && startsWith(github.event.pull_request.title, 'Release')
-    runs-on: ubuntu-latest
+    runs-on: macOS-13
     name: Check for release
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
       - name: Check if neessary files are changed
         id: file-check
         run: |
-          echo "PASSED=true" >> "$GITHUB_OUTPUT"
+          echo "reasy-for-release=true" >> "$GITHUB_OUTPUT"
 
           requiredFiles=(
             "Test/Constants.swift" 
@@ -42,14 +42,10 @@ jobs:
             if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
               echo "$file was changed"
             else
-              echo "PASSED=false" >> "$GITHUB_OUTPUT"
+              echo "reasy-for-release=false" >> "$GITHUB_OUTPUT"
             fi
           done
 
       - name: Check outputs
-        env:
-          PASSED: ${{ steps.file-check.outputs.PASSED }}
-        run: echo "$PASSED"
-
-      # - name: Try to fail
-      #   run: exit 1
+        if: steps.file-check.outputs.reasy-for-release
+        run: echo "$steps.file-check.outputs.reasy-for-release"
