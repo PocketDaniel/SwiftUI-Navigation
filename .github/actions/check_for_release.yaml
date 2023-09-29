@@ -1,0 +1,40 @@
+name: Check for release
+
+inputs:
+  title:
+    description: Name of PR / Commit that triggers the action
+    required: true
+
+outputs:
+  prepared:
+    description: Indicates if PR / Commit is ready for release
+    value: ${{ steps.file-check.outputs.prepared }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v39
+
+    - name: Check if neessary files are changed
+      id: file-check
+      run: |
+        echo "prepared=true" >> "$GITHUB_OUTPUT"
+
+        version=$(echo '${{ inputs.title }}' | grep -Eo '\d+\.\d+\.\d+')
+
+        requiredFiles=(
+          "Test/Constants.swift" 
+          "test.podspec" 
+          "Changelogs/$version.md" 
+        )
+
+        for file in ${requiredFiles[@]}; do
+          if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
+            echo "$file was changed"
+          else
+            echo "prepared=false" >> "$GITHUB_OUTPUT"
+          fi
+        done
