@@ -42,7 +42,7 @@ jobs:
             if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
               echo "$file was changed"
             else
-              echo "::error::$file wasn't updated, but is required for release"
+              echo "::error::$file wasn't added/updated, but is required for release"
               exit 1
             fi
           done
