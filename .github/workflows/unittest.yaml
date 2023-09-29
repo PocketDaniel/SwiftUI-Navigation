@@ -48,4 +48,4 @@ jobs:
 
       - name: Check outputs
         if: steps.file-check.outputs.reasy-for-release
-        run: echo "${steps.file-check.outputs.reasy-for-release}"
+        run: echo "${{ steps.file-check.outputs.reasy-for-release }}"
