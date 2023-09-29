@@ -20,9 +20,11 @@ jobs:
   call_check_for_release:
     runs-on: macOS-13
     name: Call check_for_release workflow
+    env:
+      PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/workflows/check-for-release.yaml@${{ github.event.pull_request.head.ref }}
+      - uses: ./.github/workflows/check-for-release.yaml@$PR_HEAD_REF
 
   # check_for_release:
   #   if: startsWith(github.event.pull_request.title, 'Release')
