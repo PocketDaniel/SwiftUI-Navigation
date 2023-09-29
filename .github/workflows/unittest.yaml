@@ -47,5 +47,5 @@ jobs:
           done
 
       - name: Check outputs
-        if: steps.file-check.outputs.reasy-for-release
+        if: steps.file-check.outputs.reasy-for-release == true
         run: echo "${{ steps.file-check.outputs.reasy-for-release }}"
