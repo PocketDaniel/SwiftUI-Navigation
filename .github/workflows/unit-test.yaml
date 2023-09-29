@@ -21,26 +21,15 @@ jobs:
     name: Check for release
     steps:
       - uses: actions/checkout@v4
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v39
-
-      - name: Check if neessary files are changed
-        id: file-check
-        run: |
-          version=$(echo '${{ github.event.pull_request.title }}' | grep -Eo '\d+\.\d+\.\d+')
-
-          requiredFiles=(
-            "Test/Constants.swift" 
-            "test.podspec" 
-            "Changelogs/$version.md" 
-          )
-
-          for file in ${requiredFiles[@]}; do
-            if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
-              echo "$file was changed"
-            else
-              echo "::error::$file wasn't added/updated, but is required for release"
-              exit 1
-            fi
-          done
+      - id: check_for_release
+        uses: ./.github/actions/check_for_release.yaml
+        with:
+          title: ${{ github.event.pull_request.title }}
+      
+      - run: echo "Prepared"
+        if: steps.check_for_release.outputs.prepared == true
+        
+      - run: |
+          echo "::error::$file wasn't added/updated, but is required for release"
+          exit 1
+        if: steps.check_for_release.outputs.prepared == false
