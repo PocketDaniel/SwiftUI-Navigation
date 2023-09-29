@@ -17,6 +17,8 @@ jobs:
         #   xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
 
   call_check_for_release:
+    runs-on: macOS-13
+    name: Call check_for_release workflow
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/check-for-release.yaml
