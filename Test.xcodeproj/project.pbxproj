@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C0BA64C2AC5A12800B3A08E /* TestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0BA64B2AC5A12800B3A08E /* TestTests.swift */; };
+		0C0BA6532AC5DA4600B3A08E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0BA6522AC5DA4600B3A08E /* Constants.swift */; };
 		0C2ED4102A41B0210076107F /* Main+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2ED40F2A41B0210076107F /* Main+Injection.swift */; };
 		0C2ED4122A41B5C30076107F /* Settings+Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2ED4112A41B5C30076107F /* Settings+Injected.swift */; };
 		0C2ED4152A41BCFD0076107F /* Main in Frameworks */ = {isa = PBXBuildFile; productRef = 0C2ED4142A41BCFD0076107F /* Main */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		0C0BA6492AC5A12800B3A08E /* TestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C0BA64B2AC5A12800B3A08E /* TestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTests.swift; sourceTree = "<group>"; };
+		0C0BA6522AC5DA4600B3A08E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0C2ED40C2A419F7B0076107F /* Settings */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Settings; sourceTree = "<group>"; };
 		0C2ED40D2A419F870076107F /* SettingsInterface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SettingsInterface; sourceTree = "<group>"; };
 		0C2ED40E2A41AD000076107F /* MainInterface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MainInterface; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				0C5F0EA029DAF1610073A3EF /* TestApp.swift */,
 				0C5F0EA429DAF1610073A3EF /* Assets.xcassets */,
 				0C5F0EA629DAF1610073A3EF /* Preview Content */,
+				0C0BA6522AC5DA4600B3A08E /* Constants.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				0C5F0EA129DAF1610073A3EF /* TestApp.swift in Sources */,
 				0C2ED4102A41B0210076107F /* Main+Injection.swift in Sources */,
 				0C5F0EC929DB35F40073A3EF /* App+Injection.swift in Sources */,
+				0C0BA6532AC5DA4600B3A08E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
