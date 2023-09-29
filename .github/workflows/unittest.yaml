@@ -31,11 +31,13 @@ jobs:
         id: file-check
         run: |
           echo "reasy-for-release=true" >> "$GITHUB_OUTPUT"
+          
+          version=$(echo '${{ github.event.pull_request.title }}' | grep -Eo '\w+\.\w+\.\w+')
 
           requiredFiles=(
             "Test/Constants.swift" 
             "test.podspec" 
-            "Changelogs/2.5.1.md" 
+            "Changelogs/{$version}.md" 
           )
 
           for file in ${requiredFiles[@]}; do
@@ -46,6 +48,6 @@ jobs:
             fi
           done
 
-      - name: Check outputs
+      - name: Run release workflow
         if: steps.file-check.outputs.reasy-for-release == true
         run: echo "${{ steps.file-check.outputs.reasy-for-release }}"
