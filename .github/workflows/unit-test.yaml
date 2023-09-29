@@ -17,7 +17,7 @@ jobs:
         #   xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
 
   check_for_release:
-    uses: .github/workflows/check-for-release.yml@main
+    uses: ./.github/workflows/check-for-release.yml@main
     with:
       title: github.event.pull_request.title
 
