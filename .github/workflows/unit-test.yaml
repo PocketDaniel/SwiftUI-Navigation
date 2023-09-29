@@ -28,7 +28,7 @@ jobs:
       REF_SHA: ${{ github.event.pull_request.head.sha }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/workflows/check-for-release.yaml@${REF_SHA}
+      - uses: ./.github/workflows/check-for-release.yaml@"$REF_SHA"
 
   # check_for_release:
   #   if: startsWith(github.event.pull_request.title, 'Release')
