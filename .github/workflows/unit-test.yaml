@@ -16,9 +16,10 @@ jobs:
         # run: | 
         #   xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
 
-  call-workflow-2-in-local-repo:
-    uses: actions/checkout@v4
-    uses: ./.github/workflows/check-for-release.yaml
+  call_check_for_release:
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/check-for-release.yaml
 
   # check_for_release:
   #   if: startsWith(github.event.pull_request.title, 'Release')
