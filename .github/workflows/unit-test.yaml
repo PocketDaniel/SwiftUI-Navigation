@@ -1,0 +1,52 @@
+name: Run unit tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, closed]
+
+jobs:
+  unit_tests:
+    if: github.event.pull_request.merged == false
+    runs-on: macOS-13
+    name: Run unit tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test
+        run: echo "Running unit tests"
+        # run: | 
+        #   xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
+
+  check_for_release:
+    uses: .github/workflows/check-for-release.yml@main
+    with:
+      title: github.event.pull_request.title
+
+  # check_for_release:
+  #   if: startsWith(github.event.pull_request.title, 'Release')
+  #   runs-on: macOS-13
+  #   name: Check for release
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Get changed files
+  #       id: changed-files
+  #       uses: tj-actions/changed-files@v39
+
+  #     - name: Check if neessary files are changed
+  #       id: file-check
+  #       run: |
+  #         version=$(echo '${{ github.event.pull_request.title }}' | grep -Eo '\d+\.\d+\.\d+')
+
+  #         requiredFiles=(
+  #           "Test/Constants.swift" 
+  #           "test.podspec" 
+  #           "Changelogs/$version.md" 
+  #         )
+
+  #         for file in ${requiredFiles[@]}; do
+  #           if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
+  #             echo "$file was changed"
+  #           else
+  #             echo "::error::$file wasn't added/updated, but is required for release"
+  #             exit 1
+  #           fi
+  #         done

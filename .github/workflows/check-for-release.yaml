@@ -1,24 +1,15 @@
-name: Run unit tests
+name: Check for release
 
 on:
-  pull_request:
-    types: [opened, synchronize, closed]
+  workflow_call:
+    inputs:
+      title:
+        required: true
+        type: string
 
 jobs:
-# NOTE: Disabled unit tests to speedup process
-  # unit_tests:
-  #   if: github.event.pull_request.merged == false
-  #   runs-on: macOS-13
-  #   name: Run unit tests
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Test
-  #       run: | 
-  #         xcodebuild test -scheme Test -resultBundlePath TestResults -destination 'platform=iOS Simulator,name=iPhone 14' && exit ${PIPESTATUS[0]}
-
   check_for_release:
-    if: startsWith(github.event.pull_request.title, 'Release')
-    # if: github.event.pull_request.merged && startsWith(github.event.pull_request.title, 'Release')
+    if: startsWith(inputs.title, 'Release')
     runs-on: macOS-13
     name: Check for release
     steps:
@@ -30,7 +21,7 @@ jobs:
       - name: Check if neessary files are changed
         id: file-check
         run: |
-          version=$(echo '${{ github.event.pull_request.title }}' | grep -Eo '\w+\.\w+\.\w+')
+          version=$(echo '${{ inputs.title }}' | grep -Eo '\d+\.\d+\.\d+')
 
           requiredFiles=(
             "Test/Constants.swift" 
