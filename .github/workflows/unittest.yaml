@@ -30,27 +30,25 @@ jobs:
       - name: Check if neessary files are changed
         id: file-check
         run: |
-          echo "reasy-for-release=true" >> "$GITHUB_OUTPUT"
+#          echo "reasy-for-release=true" >> "$GITHUB_OUTPUT"
 
           version=$(echo '${{ github.event.pull_request.title }}' | grep -Eo '\w+\.\w+\.\w+')
-
-          echo "Changelogs/{$version}.md
-          echo "Changelogs/$version.md
 
           requiredFiles=(
             "Test/Constants.swift" 
             "test.podspec" 
-            "Changelogs/{$version}.md" 
+            "Changelogs/$version.md" 
           )
 
           for file in ${requiredFiles[@]}; do
             if [[ " ${{ steps.changed-files.outputs.all_changed_files }} " =~ " ${file} " ]]; then
               echo "$file was changed"
             else
-              echo "reasy-for-release=false" >> "$GITHUB_OUTPUT"
+              echo "::error::$file wasn't updated, but is required for release"
+              exit 1
             fi
           done
 
-      - name: Run release workflow
-        if: steps.file-check.outputs.reasy-for-release == true
-        run: echo "${{ steps.file-check.outputs.reasy-for-release }}"
+      # - name: Run release workflow
+      #   if: steps.file-check.outputs.reasy-for-release == true
+      #   run: echo "${{ steps.file-check.outputs.reasy-for-release }}"
