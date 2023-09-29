@@ -31,8 +31,11 @@ jobs:
         id: file-check
         run: |
           echo "reasy-for-release=true" >> "$GITHUB_OUTPUT"
-          
+
           version=$(echo '${{ github.event.pull_request.title }}' | grep -Eo '\w+\.\w+\.\w+')
+
+          echo "Changelogs/{$version}.md
+          echo "Changelogs/$version.md
 
           requiredFiles=(
             "Test/Constants.swift" 
